@@ -10,7 +10,6 @@ import (
   "github.com/c9s/inflect"
 )
 
-// 標準入力で受けたjsonをstructにする
 func main() {
   flag.Parse()
   if  1 > len(flag.Args()) {
