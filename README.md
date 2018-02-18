@@ -1,9 +1,15 @@
 # j2gs
-Convert json strings to Go struct.
+Convert a json file to Go struct.
 
 ```bash
 go get -u github.com/junpayment/j2gs
-j2gs '{"hoge_hoge": 1, "fuga": "chome"}'
+j2gs sample.json
+```
+
+sample.json
+
+```json
+{"hoge_hoge": 1, "fuga": "chome"}
 ```
 
 You will get go struct below.
