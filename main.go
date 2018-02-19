@@ -21,6 +21,11 @@ func main() {
     panic(err)
   }
 
+  structName := flag.Arg(1)
+  if "" == structName {
+    structName = "Hoge"
+  }
+
   var data map[string]interface{}
   err = json.Unmarshal(jsonBuff, &data)
   if nil != err {
@@ -28,20 +33,26 @@ func main() {
   }
 
   var out string
-  out += fmt.Sprintf("type Hoge struct {\n")
+  out += fmt.Sprintf("type %s struct {\n", structName)
 
   for k, v := range data {
     varName := k
     varNameCamel := inflect.Camelize(varName)
 
     var typeName string
-    switch reflect.TypeOf(v).Name() {
-    case "float64":
-      typeName = "int"
-    case "bool":
-      typeName = "bool"
-    default: //case "string":
-      typeName = "string"
+
+    tempType := reflect.TypeOf(v)
+    if nil == tempType {
+      typeName = "UNKNOWN" // support null type
+    } else {
+      switch tempType.Name() {
+      case "float64":
+        typeName = "int"
+      case "bool":
+        typeName = "bool"
+      default: //case "string":
+        typeName = "string"
+      }
     }
 
     out += fmt.Sprintf("  %s %s `json:\"%s:%s\"`\n", varNameCamel, typeName, varName, typeName)
